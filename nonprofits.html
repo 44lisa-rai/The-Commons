@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nonprofits - The Commons</title>
+<link rel="stylesheet" href="styles.css">
+
+<style>
+.logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  height: 350px;
+  transition: all 1.5s ease;
+  z-index: 1000;
+}
+
+.logo.move {
+  top: 20px;
+  left: 20px;
+  transform: none;
+  width: 140px;
+  height: 140px;
+}
+
+.header, .content, .search-container { opacity: 0; transition: opacity 1.5s ease; }
+.header.show, .content.show, .search-container.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<img src="thecommons.png" alt="The Commons Logo" class="logo" id="logo">
+
+<!-- HEADER -->
+<header class="header" id="header">
+  <h1>The Commons</h1>
+
+  <nav class="nav-buttons">
+    <a href="index.html"><button>Home</button></a>
+    <a href="volunteer.html"><button>Volunteering</button></a>
+    <a href="nonprofits.html"><button>Nonprofits</button></a>
+    <a href="events.html"><button>Events</button></a>
+    <a href="aboutus.html"><button>About Us</button></a>
+  </nav>
+</header>
+
+<main class="content" id="content">
+  <h2>Nonprofit Organizations</h2>
+  <p>
+    <a href="https://www.everymind.org/mham" target="_blank">EveryMind</a> – EveryMind is a nonprofit promoting mental health awareness! Participate in the May 18th 5K run and 1K walk across Maryland, volunteer to help set up, or join social events that teach communication and support.
+  </p>
+  <p>
+    <a href="https://www.happycrewcoffeehouse.com/" target="_blank">Happy Crew Coffee House</a> – This nonprofit links mental health with community outreach. Teens are welcome to participate, relax, and engage in activities promoting belonging and kindness.
+  </p>
+</main>
+
+<!-- SEARCH BAR -->
+<div class="search-container" id="searchContainer">
+  <input type="text" id="searchBar" placeholder="Search opportunities...">
+</div>
+
+<!-- SEARCH RESULTS (Will appear above boxes) -->
+<div id="presetResults" class="google-results"></div>
+
+<script>
+window.addEventListener("load", () => {
+  const boxes = [
+    {box: document.getElementById("box1"), img: document.getElementById("img1")},
+    {box: document.getElementById("box2"), img: document.getElementById("img2")},
+    {box: document.getElementById("box3"), img: document.getElementById("img3")},
+  ];
+
+  boxes.forEach((item, index) => {
+    setTimeout(() => {
+      item.box.classList.add("show");
+      item.img.classList.add("show");
+    }, 500 + index * 300);
+  });
+});
+</script>
+
+
+<script>
+window.addEventListener("load", () => {
+  const logo = document.getElementById('logo');
+  const header = document.getElementById('header');
+  const content = document.getElementById('content');
+  const searchContainer = document.getElementById('searchContainer');
+
+  const box1 = document.getElementById("box1");
+  const box2 = document.getElementById("box2");
+  const box3 = document.getElementById("box3");
+
+  setTimeout(() => logo.classList.add('move'), 500);
+  setTimeout(() => header.classList.add('show'), 2000);
+  setTimeout(() => content.classList.add('show'), 2500);
+  setTimeout(() => searchContainer.classList.add('show'), 3000);
+
+  setTimeout(() => box1.classList.add('show'), 3500);
+  setTimeout(() => box2.classList.add('show'), 3800);
+  setTimeout(() => box3.classList.add('show'), 4100);
+});
+</script>
+
+<script>
+const searchData = [
+  { name: "Project C.U.R.E.", link: "https://projectcure.org/", keywords: "healthcare medical donations volunteering" },
+  { name: "MaxFund Volunteering", link: "https://maxfund.org/Volunteering-Maxfund", keywords: "animal shelter rescue pets" },
+  { name: "Happy Crew Coffeehouse", link: "https://www.happycrewcoffeehouse.com/", keywords: "coffee social hangout community" },
+  { name: "EveryMind Mental Health", link: "https://www.everymind.org/mham/", keywords: "mental health therapy support" },
+  { name: "Project Angel Heart", link: "https://www.projectangelheart.org/", keywords: "donations housing families" },
+  { name: "ARIA Robotics", link: "https://www.ariarobotics.com/home", keywords: "robotics engineering internship technology" },
+  { name: "Mines SUMMET Program", link: "https://www.mines.edu/undergraduate-admissions/summer-mines-engineering-and-training-summet/", keywords: "engineering camp summer students" },
+  { name: "Lockheed Martin High School Programs", link: "https://www.lockheedmartin.com/en-us/careers/candidates/students-early-careers/high-school.html", keywords: "aerospace engineering internship careers" },
+  { name: "Colorado Fourteeners Initiative", link: "https://www.14ers.org/", keywords: "environment hiking trails conservation" }
+];
+
+const searchBar = document.getElementById("searchBar");
+const resultsDiv = document.getElementById("presetResults");
+
+function runSearch() {
+  const text = searchBar.value.toLowerCase();
+  resultsDiv.innerHTML = "";
+
+  if (!text) return; // do not show anything if search is empty
+
+  const matches = searchData.filter(item =>
+    item.name.toLowerCase().includes(text) ||
+    item.keywords.toLowerCase().includes(text)
+  );
+
+  if (matches.length === 0) {
+    resultsDiv.innerHTML = "<div class='google-result show'>No results found.</div>";
+    return;
+  }
+
+  matches.forEach(item => {
+    const result = document.createElement("div");
+    result.className = "google-result show";
+    result.innerHTML = `<a href="${item.link}" target="_blank">${item.name}</a>`;
+    resultsDiv.appendChild(result);
+  });
+}
+
+searchBar.addEventListener("input", runSearch);
+</script>
+
+</body>
+</html>
